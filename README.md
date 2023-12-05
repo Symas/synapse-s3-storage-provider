@@ -20,11 +20,6 @@ media_storage_providers:
   store_remote: True
   store_synchronous: True
   config:
-    verify: <boolean/string>
-    #Whether or not to verify SSL certificates. By default SSL certificates are verified. You can provide the following values:
-    #False - do not validate SSL certificates. SSL will still be used (unless use_ssl is False), but SSL certificates will not be verified.
-    #path/to/cert/bundle.pem - A filename of the CA cert bundle to uses. You can specify this argument if you want to use a different CA cert bundle than the one used by botocore.
-
     bucket: <S3_BUCKET_NAME>
     # All of the below options are optional, for use with non-AWS S3-like
     # services, or to specify access tokens here instead of some external method.
@@ -32,6 +27,11 @@ media_storage_providers:
     endpoint_url: <S3_LIKE_SERVICE_ENDPOINT_URL>
     access_key_id: <S3_ACCESS_KEY_ID>
     secret_access_key: <S3_SECRET_ACCESS_KEY>
+
+    verify: <boolean/string>
+    #Whether or not to verify SSL certificates. By default SSL certificates are verified. You can provide the following values:
+    #False - do not validate SSL certificates. SSL will still be used (unless use_ssl is False), but SSL certificates will not be verified.
+    #path/to/cert/bundle.pem - A filename of the CA cert bundle to uses. You can specify this argument if you want to use a different CA cert bundle than the one used by botocore.
 
     # Server Side Encryption for Customer-provided keys
     #sse_customer_key: <S3_SSEC_KEY>
