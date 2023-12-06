@@ -88,7 +88,7 @@ class S3StorageProviderBackend(StorageProvider):
 
         if "secret_access_key" in config:
             self.api_kwargs["aws_secret_access_key"] = config["secret_access_key"]
-        
+
         if "verify" in config:
             self.api_kwargs["verify"]=config["verify"]
 
@@ -150,15 +150,15 @@ class S3StorageProviderBackend(StorageProvider):
         return make_deferred_yieldable(
             threads.deferToThreadPool(reactor, self._s3_pool, _store_file)
         )
-    
+
     def store_with_client_side_encryption(self, path):
         s3_client = self._get_s3_client()
         file_name = os.path.join(self.cache_directory, path)
         with open(file_name, 'rb') as file:
             with self._cse_client.encrypt(file) as encryptor:
                 s3_client.upload_fileobj(
-                    Fileobj=encryptor, 
-                    Bucket=self.bucket, 
+                    Fileobj=encryptor,
+                    Bucket=self.bucket,
                     Key=path,
                     ExtraArgs=self.extra_args)
 
@@ -217,7 +217,7 @@ class S3StorageProviderBackend(StorageProvider):
             result["extra_args"]["SSECustomerAlgorithm"] = config.get(
                 "sse_customer_algo", "AES256"
             )
-    
+
         if "cse_master_key" in config:
             result["cse_master_key"] = config["cse_master_key"]
 
@@ -275,7 +275,7 @@ def _stream_to_producer(reactor, producer, body, s3, status=None, timeout=None):
         reactor
         producer (_S3Responder): Producer object to stream results to
         body (file like): The object to read from
-        s3 (S3StorageProviderBackend): The object to use for client-side encryption 
+        s3 (S3StorageProviderBackend): The object to use for client-side encryption
         status (_ProducerStatus|None): Used to track whether we're currently
             paused or not. Used for testing
         timeout (float|None): Timeout in seconds to wait for consume to resume
@@ -299,7 +299,7 @@ def _stream_to_producer(reactor, producer, body, s3, status=None, timeout=None):
 
 def stream_body(body, producer, reactor, status, timeout):
     """Stream body to client
-    
+
     Args:
         body (file like): The object to read from
         producer (_S3Responder): Producer object to stream results to
@@ -341,7 +341,7 @@ def stream_body_with_cse(body, producer, reactor, s3, timeout, status):
         body (file like): The object to read from
         producer (_S3Responder): Producer object to stream results to
         reactor
-        s3 (S3StorageProviderBackend): The object to use for client-side encryption 
+        s3 (S3StorageProviderBackend): The object to use for client-side encryption
         status (_ProducerStatus|None): Used to track whether we're currently
             paused or not. Used for testing
         timeout (float|None): Timeout in seconds to wait for consume to resume
